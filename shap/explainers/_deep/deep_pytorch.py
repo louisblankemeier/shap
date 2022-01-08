@@ -51,7 +51,7 @@ class PyTorchDeep(Explainer):
         self.multi_output = False
         self.num_outputs = 1
         with torch.no_grad():
-            outputs = model(*data)
+            outputs = model(*data)[0]
 
             # also get the device everything is running on
             self.device = outputs.device
