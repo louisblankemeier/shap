@@ -52,7 +52,8 @@ class PyTorchDeep(Explainer):
         self.num_outputs = 1
         with torch.no_grad():
             outputs = model(*data)[0]
-
+            print("Outputs:")
+            print(outputs)
             # also get the device everything is running on
             self.device = outputs.device
             if outputs.shape[1] > 1:
