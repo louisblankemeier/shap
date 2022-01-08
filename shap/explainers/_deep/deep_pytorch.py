@@ -51,9 +51,7 @@ class PyTorchDeep(Explainer):
         self.multi_output = False
         self.num_outputs = 1
         with torch.no_grad():
-            outputs = model(*data)[0]
-            print("Outputs:")
-            print(outputs)
+            outputs = model(*data)[0] #Louis edit - edited for multitask
             # also get the device everything is running on
             self.device = outputs.device
             if outputs.shape[1] > 1:
@@ -101,7 +99,7 @@ class PyTorchDeep(Explainer):
     def gradient(self, idx, inputs):
         self.model.zero_grad()
         X = [x.requires_grad_() for x in inputs]
-        outputs = self.model(*X)
+        outputs = self.model(*X)[0] #Louis edit - edited for multitask
         selected = [val for val in outputs[:, idx]]
         grads = []
         if self.interim:
@@ -145,7 +143,7 @@ class PyTorchDeep(Explainer):
 
         if ranked_outputs is not None and self.multi_output:
             with torch.no_grad():
-                model_output_values = self.model(*X)
+                model_output_values = self.model(*X)[0] #Louis edit - edited for multitask
             # rank and determine the model outputs that we will explain
             if output_rank_order == "max":
                 _, model_output_ranks = torch.sort(model_output_values, descending=True)
