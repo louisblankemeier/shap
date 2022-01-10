@@ -53,11 +53,11 @@ class PyTorchDeep(Explainer):
         self.num_outputs = 1
         with torch.no_grad():
             #outputs = torch.nn.Softmax(dim=1)(model(*data)[0]) #Louis edit - edited for multitask
-            outputs = model(*data)[0]
-            print("before softmax")
-            print(model(*data)[0])
-            print("after softmax")
-            print(outputs)
+            outputs = model(*data)
+            #print("before softmax")
+            #print(model(*data)[0])
+            #print("after softmax")
+            #print(outputs)
             # also get the device everything is running on
             self.device = outputs.device
             if outputs.shape[1] > 1:
@@ -106,11 +106,11 @@ class PyTorchDeep(Explainer):
         self.model.zero_grad()
         X = [x.requires_grad_() for x in inputs]
         #outputs = torch.nn.Softmax(dim=1)(self.model(*X)[0]) #Louis edit - edited for multitask
-        outputs = self.model(*X)[0]
-        print("gradient outputs before softmax:")
-        print(self.model(*X)[0])
-        print("gradient outputs after softmax")
-        print(torch.nn.Softmax(dim=1)(self.model(*X)[0]))
+        outputs = self.model(*X)
+        #print("gradient outputs before softmax:")
+        #print(self.model(*X)[0])
+        #print("gradient outputs after softmax")
+        #print(torch.nn.Softmax(dim=1)(self.model(*X)[0]))
         selected = [val for val in outputs[:, idx]]
         grads = []
         if self.interim:
@@ -155,9 +155,9 @@ class PyTorchDeep(Explainer):
         if ranked_outputs is not None and self.multi_output:
             with torch.no_grad():
                 #model_output_values = torch.nn.Softmax(dim=1)(self.model(*X)[0]) #Louis edit - edited for multitask
-                model_output_values = self.model(*X[0])
-                print("model_output_values")
-                print(model_output_values)
+                model_output_values = self.model(*X)
+                #print("model_output_values")
+                #print(model_output_values)
             # rank and determine the model outputs that we will explain
             if output_rank_order == "max":
                 _, model_output_ranks = torch.sort(model_output_values, descending=True)
