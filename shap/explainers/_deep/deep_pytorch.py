@@ -151,7 +151,7 @@ class PyTorchDeep(Explainer):
 
         if ranked_outputs is not None and self.multi_output:
             with torch.no_grad():
-                model_output_values = self.model(*X)[0] #Louis edit - edited for multitask
+                model_output_values = torch.nn.Softmax(dim=1)(self.model(*X)[0]) #Louis edit - edited for multitask
                 print("model_output_values")
                 print(model_output_values)
             # rank and determine the model outputs that we will explain
