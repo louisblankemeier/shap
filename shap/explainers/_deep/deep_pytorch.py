@@ -104,6 +104,10 @@ class PyTorchDeep(Explainer):
         self.model.zero_grad()
         X = [x.requires_grad_() for x in inputs]
         outputs = torch.nn.Softmax(dim=1)(self.model(*X)[0]) #Louis edit - edited for multitask
+        print("gradient outputs before softmax:")
+        print(self.model(*X)[0])
+        print("gradient outputs after softmax")
+        print(torch.nn.Softmax(dim=1)(self.model(*X)[0]))
         selected = [val for val in outputs[:, idx]]
         grads = []
         if self.interim:
