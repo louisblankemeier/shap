@@ -37,8 +37,8 @@ class PyTorchDeep(Explainer):
             # if we are taking an interim layer, the 'data' is going to be the input
             # of the interim layer; we will capture this using a forward hook
             with torch.no_grad():
-                #_ = model(*data)
-                _ = torch.nn.Softmax(dim=1)(model(*data)[0])
+                _ = model(*data)[0]
+                #_ = torch.nn.Softmax(dim=1)(model(*data)[0])
                 interim_inputs = self.layer.target_input
                 if type(interim_inputs) is tuple:
                     # this should always be true, but just to be safe
@@ -104,7 +104,8 @@ class PyTorchDeep(Explainer):
     def gradient(self, idx, inputs):
         self.model.zero_grad()
         X = [x.requires_grad_() for x in inputs]
-        outputs = torch.nn.Softmax(dim=1)(self.model(*X)[0]) #Louis edit - edited for multitask
+        #outputs = torch.nn.Softmax(dim=1)(self.model(*X)[0]) #Louis edit - edited for multitask
+        outputs = self.model(*X)[0]
         print("gradient outputs before softmax:")
         print(self.model(*X)[0])
         print("gradient outputs after softmax")
@@ -152,7 +153,8 @@ class PyTorchDeep(Explainer):
 
         if ranked_outputs is not None and self.multi_output:
             with torch.no_grad():
-                model_output_values = torch.nn.Softmax(dim=1)(self.model(*X)[0]) #Louis edit - edited for multitask
+                #model_output_values = torch.nn.Softmax(dim=1)(self.model(*X)[0]) #Louis edit - edited for multitask
+                model_output_values = self.model(*X[0])
                 print("model_output_values")
                 print(model_output_values)
             # rank and determine the model outputs that we will explain
