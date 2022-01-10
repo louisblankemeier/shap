@@ -52,6 +52,10 @@ class PyTorchDeep(Explainer):
         self.num_outputs = 1
         with torch.no_grad():
             outputs = torch.nn.Softmax(dim=1)(model(*data)[0]) #Louis edit - edited for multitask
+            print("before softmax")
+            print(model(*data)[0])
+            print("after softmax")
+            print(outputs)
             # also get the device everything is running on
             self.device = outputs.device
             if outputs.shape[1] > 1:
@@ -144,6 +148,8 @@ class PyTorchDeep(Explainer):
         if ranked_outputs is not None and self.multi_output:
             with torch.no_grad():
                 model_output_values = self.model(*X)[0] #Louis edit - edited for multitask
+                print("model_output_values")
+                print(model_output_values)
             # rank and determine the model outputs that we will explain
             if output_rank_order == "max":
                 _, model_output_ranks = torch.sort(model_output_values, descending=True)
