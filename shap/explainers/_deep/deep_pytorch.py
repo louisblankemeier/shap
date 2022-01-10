@@ -52,7 +52,8 @@ class PyTorchDeep(Explainer):
         self.multi_output = False
         self.num_outputs = 1
         with torch.no_grad():
-            outputs = torch.nn.Softmax(dim=1)(model(*data)[0]) #Louis edit - edited for multitask
+            #outputs = torch.nn.Softmax(dim=1)(model(*data)[0]) #Louis edit - edited for multitask
+            outputs = model(*data)[0]
             print("before softmax")
             print(model(*data)[0])
             print("after softmax")
