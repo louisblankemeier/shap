@@ -37,7 +37,7 @@ class PyTorchDeep(Explainer):
             # if we are taking an interim layer, the 'data' is going to be the input
             # of the interim layer; we will capture this using a forward hook
             with torch.no_grad():
-                _ = model(*data)[0]
+                _ = model(*data)
                 #_ = torch.nn.Softmax(dim=1)(model(*data)[0])
                 interim_inputs = self.layer.target_input
                 if type(interim_inputs) is tuple:
